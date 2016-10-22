@@ -24,9 +24,9 @@ Point pop();
 int isEmpty();
 int stacksize=0;
 enum direction{					//direction,0~7
-	NORTH,WEST,SOUTH,EAST,NWEST,SWEST,SEAST,NEAST
+	SOUTH,EAST,SEAST,NEAST,NORTH,WEST,NWEST,SWEST
 };
-Point direct[8]={{0,-1},{-1,0},{0,1},{1,0},{-1,-1},{-1,1},{1,1},{1,-1}};
+Point direct[8]={{0,1},{1,0},{1,1},{1,-1},{0,-1},{-1,0},{-1,-1},{-1,1}};
 
 void build_maze(int[MAX_ROW][MAX_COL]);
 void show_maze(int[MAX_ROW][MAX_COL]);
@@ -160,7 +160,7 @@ void findpath(int maze[MAX_ROW][MAX_COL])
 					while(isEmpty()!=0) 
 					{
 						finalpath[k++]=pop();
-						printf("(%d,%d)\n",finalpath[k-1].x,finalpath[k-1].y);
+						//printf("(%d,%d)\n",finalpath[k-1].x,finalpath[k-1].y);
 					}
 					printf("\n");
 					break;
@@ -196,8 +196,9 @@ int walk(int maze[MAX_ROW][MAX_COL])     //If no way to go,return 0.If end,retur
 		return 1;
 	else if(maze[nowPoint.x][nowPoint.y]==2)
 	{	
-		for(i=0;i<4;i++)
+		for(i=0;i<8;i++)
 		{
+			if(i!=NWEST&&i!=SWEST&&i!=NEAST&&i!=SEAST)
 			if(outBound(nowPoint.x+direct[i].x,nowPoint.y+direct[i].y)!=1
 				&&maze[nowPoint.x+direct[i].x][nowPoint.y+direct[i].y]!=1
 				&&maze[nowPoint.x+direct[i].x][nowPoint.y+direct[i].y]!=-1)
