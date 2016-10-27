@@ -1,8 +1,9 @@
 /*
 	hw01
-	®tØ≈:∏Í§u§G
-	æ«∏π:4104056004
-	©m¶W:ßıÆa¬@ 
+	Á≥ªÁ¥ö:Ë≥áÂ∑•‰∫å
+	Â≠∏Ëôü:4104056004
+	ÂßìÂêç:ÊùéÂÆ∂Èßø
+	 
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +36,7 @@ int walk(int[MAX_ROW][MAX_COL]);
 int outBound(int,int);
 int main(int argc, char *argv[]) {
 	
-	/*int maze[MAX_ROW][MAX_COL]={0,1,0,2,0,1,1,0,1,0,
+	/*int maze[MAX_ROW][MAX_COL]={0,1,0,2,0,1,1,0,1,0,		//test input
 								1,0,0,2,1,2,1,0,2,1,
 								0,1,0,1,1,2,0,2,1,0,
 								1,0,2,1,0,1,2,0,2,0,
@@ -44,8 +45,8 @@ int main(int argc, char *argv[]) {
 								1,2,0,1,0,1,0,1,0,0,
 								0,2,0,1,1,2,1,0,1,2,
 								1,0,1,0,1,2,2,0,1,2,
-								2,1,2,0,2,0,1,1,2,0};*/			//declaration
-	int maze[MAX_ROW][MAX_COL];							
+								2,1,2,0,2,0,1,1,2,0};*/ 
+	int maze[MAX_ROW][MAX_COL];									//declaration
 	int input;													//
 	do
 	{
@@ -83,8 +84,8 @@ void push(Point p)
 {
 	stack[stacksize].x=p.x;
 	stack[stacksize].y=p.y;
-	stack[stacksize].value=p.value;
-	stacksize++;
+	stack[stacksize++].value=p.value;
+
 }
 
 void point0()      //set point to 0.
@@ -95,14 +96,13 @@ void point0()      //set point to 0.
 
 Point pop()
 {
-	--stacksize;
-//	printf("pop [%d](%d,%d)\n",stacksize,stack[stacksize].x,stack[stacksize].y);
-	return stack[stacksize];
+	//printf("pop [%d](%d,%d)\n",stacksize-1,stack[stacksize-1].x,stack[stacksize-1].y);
+	return stack[--stacksize];
 }
 
 int isEmpty()
 {
-	if(stacksize<0) return 0;   //if returns 0 ,stack is empty.
+	if(stacksize==0) return 0;   //if returns 0 ,stack is empty.
 	return 1;
 }
  
@@ -151,10 +151,10 @@ void findpath(int maze[MAX_ROW][MAX_COL])
 	{
 		switch(walk(maze))
 		{
-			case 0:	nowPoint=pop();
-					push(nowPoint);			
+			case 0:	nowPoint=pop();			
 					//printf("backto (%d,%d) size=%d\n",nowPoint.x,nowPoint.y,stacksize);
 					maze[nowPoint.x][nowPoint.y]=nowPoint.value;
+					push(nowPoint);
 					break;
 			case 1: k=0;
 					while(isEmpty()!=0) 
@@ -198,6 +198,7 @@ int walk(int maze[MAX_ROW][MAX_COL])     //If no way to go,return 0.If end,retur
 	{	
 		for(i=0;i<8;i++)
 		{
+			
 			if(i!=NWEST&&i!=SWEST&&i!=NEAST&&i!=SEAST)
 			if(outBound(nowPoint.x+direct[i].x,nowPoint.y+direct[i].y)!=1
 				&&maze[nowPoint.x+direct[i].x][nowPoint.y+direct[i].y]!=1
@@ -207,8 +208,8 @@ int walk(int maze[MAX_ROW][MAX_COL])     //If no way to go,return 0.If end,retur
 				nowPoint.x+=direct[i].x;
 				nowPoint.y+=direct[i].y;
 				nowPoint.value=maze[nowPoint.x][nowPoint.y];
-				//printf("goto (%d,%d) size=%d\n",nowPoint.x,nowPoint.y,stacksize);
 				push(nowPoint);
+				//printf("goto (%d,%d) size=%d\n",nowPoint.x,nowPoint.y,stacksize);
 				return 2;
 				
 			}
@@ -216,7 +217,7 @@ int walk(int maze[MAX_ROW][MAX_COL])     //If no way to go,return 0.If end,retur
 		nowPoint.value=maze[nowPoint.x][nowPoint.y];
 		maze[nowPoint.x][nowPoint.y]=-1;
 		//printf("no way:");
-		nowPoint=pop();	
+		pop();	
 		return 0;
 	}
 	else
@@ -233,14 +234,13 @@ int walk(int maze[MAX_ROW][MAX_COL])     //If no way to go,return 0.If end,retur
 				nowPoint.value=maze[nowPoint.x][nowPoint.y];
 				push(nowPoint);
 				//printf("goto (%d,%d) size=%d\n",nowPoint.x,nowPoint.y,stacksize);
-				push(nowPoint);
 				return 2;
 			}
 		}
 		nowPoint.value=maze[nowPoint.x][nowPoint.y];
 		maze[nowPoint.x][nowPoint.y]=-1;
 	//	printf("no way:");
-		nowPoint=pop();	
+		pop();
 		return 0;
 	}
 
