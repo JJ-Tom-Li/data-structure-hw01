@@ -111,11 +111,14 @@ void build_maze(int maze[MAX_ROW][MAX_COL])
 	unsigned int seed = (unsigned int)time(NULL);
 	srand(seed);
 	int i,j;
-	for(i=0;i<MAX_ROW;i++)
-		for(j=0;j<MAX_COL;j++)
-		{
-			maze[i][j]=rand()%3;
-		}
+	do
+	{
+		for(i=0;i<MAX_ROW;i++)
+			for(j=0;j<MAX_COL;j++)
+			{
+				maze[i][j]=rand()%3;
+			}
+	}while(maze[0][0]==1||maze[MAX_ROW-1][MAX_COL-1]==1) //If entry and exit are ==1,rebuild the maze. 
 }
 
 void show_maze(int maze[MAX_ROW][MAX_COL])
